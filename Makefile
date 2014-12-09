@@ -7,9 +7,24 @@ TARGET   = bin/app
 SRCEXT   = cpp
 SOURCES  = $(wildcard  $(SRCDIR)/**/*.$(SRCEXT)) # $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
 OBJECTS  = $(patsubstr %.$(SRCEXT), $(BUILDDIR)/%.o, $(SOURCES))
-CFLAGS   = -g -Wall
-LIB      =
-INC      = -I include
+CFLAGS   = -g -Wall -std=c++11 -DDX_GCC_COMPILE -DDX_NON_INLINE_ASM
+LIB      = -Llib/DxLib	-lDxLib \
+						-lDxUseCLib \
+						-lDxDrawFunc \
+						-ljpeg \
+						-lpng \
+						-lzlib \
+						-ltiff \
+						-ltheora_static \
+						-lvorbis_static \
+						-lvorbisfile_static \
+						-logg_static \
+						-lbulletdynamics \
+						-lbulletcollision \
+						-lbulletmath \
+						-mwindows
+
+INC      = -Iinclude -Ilib/DxLib
 
 all: $(TARGET)
 
@@ -26,3 +41,4 @@ clean:
 	@echo "$(RM) -r $(BUILDDIR) $(TARGET)"; $(RM) -r $(BUILDDIR) $(TARGET)
 
 .PHONY: clean
+
