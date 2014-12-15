@@ -1,34 +1,34 @@
 #ifndef _APP_H_
 #define _APP_H_
 
+#include <memory>
+
+class CState;
+
 class App
 {
 public:
-	static App& GetInstance() {
-		static App instance;
+	static App& GetInstance();
 
-		return instance;
-	}
+	int Run();
 
-	int Run() {
-		if( DxLib_Init() == -1 )		// ＤＸライブラリ初期化処理
-		{
-			return -1 ;			// エラーが起きたら直ちに終了
-		}
+	void ChangeState(CState* newState);
+	CState* GetCurrentState() const { return state; }
 
-		DrawPixel( 320 , 240 , 0xffff ) ;	// 点を打つ
+	void RequestQuit() { running = false; }
+	void TogglePause() { paused = !paused; }
 
-		WaitKey() ;				// キー入力待ち
-
-		DxLib_End() ;				// ＤＸライブラリ使用の終了処理
-
-		return 0;
-	}
-
+	bool IsPaused() { return paused; }
 private:
-	App() {}
+	App();
 	App(App const&);
 	App operator=(App const&);
+
+	bool running;
+	bool paused;
+	bool windowed;
+
+	CState* state;
 };
 
 #endif
