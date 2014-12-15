@@ -5,8 +5,8 @@ BUILDDIR = build
 TARGET   = bin/app
 
 SRCEXT   = cpp
-SOURCES  = $(wildcard  $(SRCDIR)/**/*.$(SRCEXT)) # $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
-OBJECTS  = $(patsubstr %.$(SRCEXT), $(BUILDDIR)/%.o, $(SOURCES))
+SOURCES  = $(wildcard $(SRCDIR)/*.$(SRCEXT)) # $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
+OBJECTS  = $(patsubst $(SRCDIR)/%.$(SRCEXT), $(BUILDDIR)/%.o, $(SOURCES))
 CFLAGS   = -g -Wall -std=c++11 -DDX_GCC_COMPILE -DDX_NON_INLINE_ASM
 LIB      = -Llib/DxLib	-lDxLib \
 						-lDxUseCLib \
@@ -28,7 +28,7 @@ INC      = -Iinclude -Ilib/DxLib
 
 all: $(TARGET)
 
-$(TARGET): build/main.o # $(OBJECTS)
+$(TARGET): $(OBJECTS)
 	@echo Linking...
 	@echo "$(CC) $^ -o $(TARGET) $(LIB)"; $(CC) $^ -o $(TARGET) $(LIB)
 
