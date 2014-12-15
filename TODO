@@ -1,0 +1,17 @@
+-rendering queue
+-timeout
+-game states
+-box2d
+
+-key repeat
+ if current key != previous key then
+    set previous key = current key
+    hit key
+ else
+    if(not repeated) then
+       wait for 1000 ms
+       hit key
+       repeated = true
+    if(repeated) then
+       wait for 50 ms 
+       hit key
