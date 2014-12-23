@@ -1,13 +1,11 @@
 #include "App.h"
 
 #include "DxLib.h"
-#include "CStatePlay.h"
-
-#include <iostream>
+#include "GameStates.h"
 
 App::App() {
 	this->state = CStatePlay::GetInstance();
-}
+} 
 
 App& App::GetInstance() {
 	static std::unique_ptr<App> instance(new App());
@@ -27,8 +25,6 @@ int App::Run() {
 		return -1 ;
 	}
 
-	std::unique_ptr<CStatePlay> play(new CStatePlay());
-
 	int prevTime = GetNowCount();
 	while(running) {
 		int nowTime     = GetNowCount(),
@@ -36,17 +32,10 @@ int App::Run() {
 
 		prevTime = nowTime;
 		
-		ProcessMessage();
+		if(ProcessMessage() == -1)
+			break;
 
 		//Input handling pool
-		if (CheckHitKey(KEY_INPUT_P)) {
-			paused = !paused;
-		}
-		if (CheckHitKey(KEY_INPUT_W)) {
-			windowed = !windowed;
-			ChangeWindowMode(windowed);
-		}
-
 		this->GetCurrentState()->OnEvent();
 
 		//Update pool
