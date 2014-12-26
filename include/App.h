@@ -1,6 +1,7 @@
 #ifndef _APP_H_
 #define _APP_H_
 
+#include <SFML/Graphics.hpp>
 #include <memory>
 
 class CState;
@@ -14,6 +15,7 @@ public:
 
 	void ChangeState(CState* newState);
 	CState* GetCurrentState() const { return state; }
+	sf::RenderWindow* GetWindow() const { return this->window.get(); }
 
 	void RequestQuit() { running = false; }
 	void TogglePause() { paused = !paused; }
@@ -28,6 +30,7 @@ private:
 	bool paused;
 	bool windowed;
 
+	std::unique_ptr<sf::RenderWindow> window;
 	CState* state;
 };
 

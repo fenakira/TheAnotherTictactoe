@@ -1,9 +1,5 @@
-#include "DxLib.h"
-
 #include "App.h"
 
-int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
-						LPSTR lpCmdLine, int nCmdShow )
-{
+int main(int argc, const char* argv[]) {
 	return App::GetInstance().Run();
 }

@@ -1,9 +1,13 @@
 #include "App.h"
 
-#include "DxLib.h"
 #include "GameStates.h"
+#include <chrono>
 
-App::App() {
+App::App() :
+	window(new sf::RenderWindow(sf::VideoMode(640, 480), "SFML works!")) 
+{
+	this->GetWindow()->setFramerateLimit(60);
+
 	this->state = CStatePlay::GetInstance();
 } 
 
@@ -17,39 +21,35 @@ int App::Run() {
 	windowed = true;
 	running  = true;
 
-	ChangeWindowMode(windowed);
-	SetGraphMode( 800 , 600 , 32 ) ;
-	SetDrawScreen(DX_SCREEN_BACK);
-
-	if( DxLib_Init() == -1 ) {
-		return -1 ;
-	}
-
-	int prevTime = GetNowCount();
+	auto prevTime = std::chrono::system_clock::now();
 	while(running) {
-		int nowTime     = GetNowCount(),
-			elapsedTime = nowTime - prevTime;
+		auto nowTime     = std::chrono::system_clock::now();
+		auto elapsedTime = nowTime - prevTime;
 
 		prevTime = nowTime;
 		
-		if(ProcessMessage() == -1)
-			break;
+		sf::Event event;
 
-		//Input handling pool
-		this->GetCurrentState()->OnEvent();
+		//Event pool
+		while(this->GetWindow()->pollEvent(event)) {
+			if (event.type == sf::Event::Closed)
+				running = false;
+
+			this->GetCurrentState()->OnEvent();
+		}
 
 		//Update pool
 		this->GetCurrentState()->OnUpdate();
 
 		//Rendering pool
-		ClearDrawScreen();
+		this->GetWindow()->clear();
 
 		this->GetCurrentState()->OnRender();
 	
-		ScreenFlip();
+		this->GetWindow()->display();
 	}
 
-	DxLib_End();
+	this->GetWindow()->close();
 
 	return 0;
 }

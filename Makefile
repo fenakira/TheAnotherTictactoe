@@ -7,24 +7,12 @@ TARGET   = bin/app
 SRCEXT   = cpp
 SOURCES  = $(wildcard $(SRCDIR)/*.$(SRCEXT)) # $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
 OBJECTS  = $(patsubst $(SRCDIR)/%.$(SRCEXT), $(BUILDDIR)/%.o, $(SOURCES))
-CFLAGS   = -g -Wall -std=c++11 -DDX_GCC_COMPILE -DDX_NON_INLINE_ASM
-LIB      = -Llib/DxLib	-lDxLib \
-						-lDxUseCLib \
-						-lDxDrawFunc \
-						-ljpeg \
-						-lpng \
-						-lzlib \
-						-ltiff \
-						-ltheora_static \
-						-lvorbis_static \
-						-lvorbisfile_static \
-						-logg_static \
-						-lbulletdynamics \
-						-lbulletcollision \
-						-lbulletmath \
-						-mwindows
+CFLAGS   = -g -Wall -std=c++11
+LIB      = -Llib/SFML-2.2/lib	-lsfml-graphics \
+								-lsfml-window \
+								-lsfml-system
 
-INC      = -Iinclude -Ilib/DxLib
+INC      = -Iinclude -Ilib/SFML-2.2/include
 
 all: $(TARGET)
 
