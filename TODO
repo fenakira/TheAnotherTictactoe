@@ -1,6 +1,8 @@
 -rendering queue
 -timeout
 -game states
+-child state
+-state queue
 -box2d
 
 -key repeat
