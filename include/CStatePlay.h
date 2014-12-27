@@ -2,13 +2,11 @@
 #define _CSTATEPLAY_H_
 
 #include "CState.h"
+#include "CBoard.h"
 
 #include <SFML/Graphics.hpp>
 
-#include <array>
 #include <memory>
-#include <string>
-#include <unordered_map>
 
 class CStatePlay :
 	public CState 
@@ -32,10 +30,7 @@ public:
 private:
 	CStatePlay();
 
-	void _RenderCell(int x, int y, int val);
-
-	std::array<std::array<int, 3>, 3> board;
-	std::unordered_map<std::string, sf::Texture> graphics;
+	CBoard board;
 	sf::RectangleShape background;
 };
 
